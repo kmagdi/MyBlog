@@ -1,0 +1,8 @@
+/client/node_modules
+/server/node_modules
+/server/build
+/server/.env
+/server/sendgrid.env
+/server/.gitignore
+/server/tmp
+/server/.git
