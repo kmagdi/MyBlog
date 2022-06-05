@@ -6,9 +6,11 @@ import { validateImage } from "image-validator";
 import FileDrop from './FileDrop'
 import {MyContext} from '../MyContext'
 import {Story} from './Story'
+import {UserContext} from '../UserContext'
+import { SpinnerCircular } from 'spinners-react';
 
-
-export const Write=({userId})=> {
+export const Write=()=> {
+  const {user}=useContext(UserContext)
   const { categ } = useContext(MyContext);
   const {register, handleSubmit,formState: { errors }} = useForm();
   const [postCateg,setPostCateg]=useState(0)
@@ -16,6 +18,7 @@ export const Write=({userId})=> {
   const [msg,setMsg] =useState('')
   const [selFile,setSelFile] = useState({})
   const [story,setStory]=useState('')
+  const [updateing, setUpdateing] = useState(false);
   
   const onSubmit = (data) =>{
     if(selFile.length>0)
@@ -34,15 +37,17 @@ export const Write=({userId})=> {
     //formData.append('image',fdata.image[0])
     formData.append('image',selFile[0])
     formData.append('title',fdata.title)
-    formData.append('user_id',fdata.user_id)
+    formData.append('user_id',user.userId)
     formData.append('categ_id',fdata.categ_id)
     formData.append('story',story)
+    setUpdateing(true)
     try {
       const resp=await axios.post(url,formData)
       const data=await resp.data
       console.log(data)
       setMsg(data.message)
       resp.status===200 ? setSuccessFul(true):setSuccessFul(false)
+      setUpdateing(false)
     }catch(e){
       //console.log('write-catch:',Object.keys(e))
       //console.log('write-catch:',e.response)
@@ -74,8 +79,6 @@ console.log('story:',story)
                     <input type="text" className="form-control m-2 postTitle" placeholder="cím"
                         {...register("title",{required:true})} />
                      <div className="err">{errors.title && <span>a cím megadása kötelező</span>}</div>
-
-                    <input type="text"  {...register("user_id")} hidden value={userId} />
                     
                     <input disabled={postCateg==0 } type="submit" className="btn btn-primary m-2" value="publikálás" />
                 </div>
@@ -90,6 +93,7 @@ console.log('story:',story)
                       </select>
                   </div>
                   <div className="col-md-6">{msg}</div>
+                  {updateing && <SpinnerCircular />}
                 </div>
                 <Story setStory={setStory}/>
                 {/*<textarea  cols="30" rows="10" className="form-control"

@@ -1,6 +1,10 @@
 *{
   font-family: 'Montserrat', sans-serif;
 }
+
+
+
+
 /* TopBar.js*/
 .top-img{
   width: 40px;
@@ -21,12 +25,12 @@
 }
 .title1{
   position: absolute;
-  top:10%;
+  
   font-size:20px;
 }
 .title2{
   position: absolute;
-  top:10%;
+ 
   font-size:100px;
 }
 
@@ -114,4 +118,24 @@
 .postImg img{
   max-width:360px!important;
  
+}
+
+/*for responsive fonts*/
+@media screen and (max-width: 600px) {
+  h1,.title2 {
+  font-size:9vw;  
+  }
+  .title1{font-size: 2vw;}
+  h2{
+      font-size:8vw;
+  }
+ p {
+      font-size:5vw;
+  }
+  th,td{
+      font-size:3vw;
+  }
+}
+.avatar{
+  max-width: 300px;
 }

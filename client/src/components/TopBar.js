@@ -1,10 +1,26 @@
-import React from 'react'
-import {NavLink} from 'react-router-dom'
-import avatar from './avatar.svg'
+import React,{useContext} from 'react'
+import {NavLink,useNavigate} from 'react-router-dom'
+import emptyavatar from './avatar.svg'
 import {SearchBar} from './SearchBar'
+import {UserContext} from '../UserContext'
 
-export const TopBar=({user,userName,posts})=> {
-console.log('TopBar:',user,userName,posts)
+
+export const TopBar=({posts,setPosts,setLoggedIn})=> {
+  const {user,logoutUser}=useContext(UserContext)
+  const navigate=useNavigate()
+console.log('TopBar-user:',user)
+
+const logout=()=>{
+  const userData={
+    userId:0,
+    userName:'',
+    avatar:'',
+    userStory:''
+  }
+  logoutUser(userData)
+  setLoggedIn(false)
+  navigate('/')
+}
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,22 +51,23 @@ console.log('TopBar:',user,userName,posts)
       </ul>
 
       <ul className="navbar-nav ms-auto">
-      {!userName&& (<li className="nav-item">
+      {!user.userName&& (<li className="nav-item">
           <NavLink to="/login" className="nav-link " aria-current="page" href="#">Bejelentkezés</NavLink>
         </li>)}
-       {!userName&& (<li className="nav-item">
+       {!user.userName&& (<li className="nav-item">
           <NavLink to="/register" className="nav-link" href="#">Regisztráció</NavLink>
         </li>)}
-        {userName&& (<li className="nav-item">
-          <NavLink to="/logout" className="nav-link" href="#">Kijelentkezés</NavLink>
+        {user.userName&& (<li className="nav-item btn" onClick={logout}>
+          {/*<NavLink to="/logout" className="nav-link" href="#">Kijelentkezés</NavLink>*/}
+          Kijelentkezés
         </li>)}
       </ul>
 
     </div>
     <SearchBar posts={posts}/>
     <div>
-        {user &&  <NavLink to="/settings">
-                    <img  className="top-img" src={avatar} alt={userName} title={userName}/>
+        {user.userName &&  <NavLink to="/settings">
+                    <img  className="top-img" src={user.avatar?user.avatar:emptyavatar} alt={user.avatar} title={user.userName}/>
                 </NavLink>
            }
     </div>

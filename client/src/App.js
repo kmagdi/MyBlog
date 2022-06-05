@@ -11,48 +11,39 @@ import {Login} from './components/Login'
 import {Settings} from './components/Settings'
 import {Single} from './components/Single'
 import {Contact} from './components/Contact'
-import {Logout} from './components/Logout'
 import { Welcome } from './components/Welcome';
 import { EditPost } from './components/EditPost';
 //import axios from 'axios';
 import { ConfirmProvider } from 'material-ui-confirm';
 import {MyContextProvider} from './MyContext'
+import { UserProvider } from './UserContext';
 
+import { set } from 'react-hook-form';
 
 function App() {
-  const [user,setUser]=useState(localStorage.getItem('user')?localStorage['user']:false);
-  const [userName,setUserName]=useState(localStorage.getItem('userName')?localStorage['userName']:'');
-  const [userId,setUserId]=useState( localStorage.getItem('userId')?localStorage['userId']:0);
-  const [posts,setPosts]=useState([])
-
-  useEffect(() => {
-    localStorage.setItem('user',user)
-    localStorage.setItem('userName',userName)
-    localStorage.setItem('userId',userId)
-
-  },[user,userName,userId])
-
+   const [posts,setPosts]=useState([])
+   const [loggedIn,setLoggedIn] = useState(false)
   return (
     <MyContextProvider>
-     <ConfirmProvider>
-    <HashRouter >
-      <TopBar user={user} userName={userName} posts={posts}/>
-      <Routes>
-        <Route path="/" element={<Home   admin={false} posts={posts} setPosts={setPosts}/>} />
-        <Route path="/aboutme" element={<Home    admin={true} posts={posts} setPosts={setPosts}/>}/>
-        <Route path="/posts/:postId/:imageId" element={<Single   userId={userId}/>} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/write" element={ userName ? <Write userId={userId} /> : <Register />} />
-        <Route path="/settings" element={ userName ? <Settings /> : <Register />} />
-        <Route path="/login" element={ userName ? <Home   posts={posts} setPosts={setPosts}/> 
-          : <Login setUser={setUser} setUserName={setUserName} setUserId={setUserId}/>} />
-        <Route path="/register" element={ userName ? <Home  posts={posts} setPosts={setPosts}/> : <Register />} />
-        <Route path="/logout" element={<Logout setUser={setUser}  setUserName={setUserName} setUserId={setUserId} posts={posts} setPosts={setPosts}/>} />
-        <Route path="/confirm/:confirmationCode" element={<Welcome setUser={setUser}/>} />
-        <Route path="/editPost/:postId" element={user? <EditPost /> : <Login/>}/>
-      </Routes>
-    </HashRouter>
-    </ConfirmProvider>
+      <UserProvider>
+        <ConfirmProvider>
+          <HashRouter >
+            <TopBar  posts={posts} setLoggedIn={setLoggedIn} />
+            <Routes>
+              <Route path="/" element={<Home   admin={false} posts={posts} setPosts={setPosts}/>} />
+              <Route path="/aboutme" element={<Home    admin={true} posts={posts} setPosts={setPosts}/>}/>
+              <Route path="/posts/:postId/:imageId" element={<Single   />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/write" element={loggedIn ? <Write  /> : <Login setLoggedIn={setLoggedIn}/>}/>
+              <Route path="/settings" element={ <Settings  setLoggedIn={setLoggedIn}/>} />
+              <Route path="/login" element={loggedIn ? <Home  admin={false} posts={posts} setPosts={setPosts}/> : <Login setLoggedIn={setLoggedIn}/>} />
+              <Route path="/register" element={ <Register />} />
+              <Route path="/confirm/:confirmationCode" element={<Welcome />} />
+              <Route path="/editPost/:postId" element={<EditPost />}/>
+            </Routes>
+          </HashRouter>
+        </ConfirmProvider>
+      </UserProvider>
     </MyContextProvider>
   );
 }

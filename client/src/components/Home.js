@@ -12,7 +12,7 @@ export const Home=({admin,setPosts,posts})=> {
     fetchPosts()
   },[selCateg,admin])
 
-  console.log('admin=',admin)
+  //console.log('admin=',admin)
   const fetchPosts=async ()=>{
     let url=''
     if(!admin)
@@ -27,7 +27,7 @@ export const Home=({admin,setPosts,posts})=> {
       console.log(err)
     }
   }
-console.log(posts)
+//console.log(posts)
 
   return (
     <>

@@ -1,17 +1,16 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { useForm } from 'react-hook-form';
+import emptyavatar from './avatar.svg'
+import { UserContext } from '../UserContext';
 
 
-export const Login=({setUser,setUserName,setUserId})=> {
+export const Login=({setLoggedIn})=> {
+  const {user,loginUser}=useContext(UserContext)
   const {register, handleSubmit,formState: { errors },} = useForm();
-  const [successful,setSuccessful]=useState(false)
   const [msg,setMsg]=useState('')
 
-  useEffect(()=>{
-    successful? setUser(true) : setUser(false)
-  },[successful])
-
+  
   const onSubmit = (data) =>{
     console.log(data);
     let url='/auth/login'
@@ -22,17 +21,20 @@ export const Login=({setUser,setUserName,setUserId})=> {
     try{
       const resp=await axios.post(url,formdata,{headers:{'Content-Type':'application/json'}})
       const data=await resp.data
-      setSuccessful(true)
-      setUser(true)
-      setUserName(data.username)
-      setUserId(data.userId)
-      setMsg(data.message)
+      console.log('szerver oldalról:',data)
+      const userData={
+        userId:data.userId,
+        userName:data.username,
+        avatar:data.avatar,
+        userStory:data.userStory
+      }
+      loginUser(userData)
+      setLoggedIn(true)
     }catch(err){
         console.log(err.message)
         console.log(err.response.status)
         if(err.response.status==401){
-          setSuccessful(false)
-          setUserName('')
+          loginUser(user)
           setMsg(err.response.data.message)
         }else
           setMsg(err.message)

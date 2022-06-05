@@ -39,9 +39,9 @@ export const SearchBar=({posts})=> {
     console.log('filtered posts:',filteredPosts)
   return (
     <div>
-        <div className="d-flex justify-content-between border rounded">
-            <input  className="border p-2" type="text" value={wordEntered} onChange={handleFilter}/>
-            {wordEntered===""? <i className="fa-solid fa-magnifying-glass"></i>:
+        <div className="d-flex justify-content-between border rounded align-items-center">
+            <input  className="border p-2 " type="text" value={wordEntered} onChange={handleFilter}/>
+            {wordEntered===""? <i className="fa-solid fa-magnifying-glass p-1"></i>:
                 <i className="fa-solid fa-x" onClick={handleClear}></i>}
         </div>
         {/*modal*/}
