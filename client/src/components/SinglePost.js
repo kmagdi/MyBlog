@@ -1,11 +1,13 @@
-import React,{useState,useEffect,Fragment} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import {useConfirm} from 'material-ui-confirm'
 import parse from 'html-react-parser';
+import {UserContext} from '../UserContext'
 
 
-export const SinglePost=({postId,userId,imageId})=> {
+export const SinglePost=({postId,imageId})=> {
+  const {user}=useContext(UserContext)
   const navigate = useNavigate()
   const confirm=useConfirm()
   const [post,setPost]=useState({})
@@ -18,7 +20,7 @@ export const SinglePost=({postId,userId,imageId})=> {
   },[postId])
   
 
-  console.log('singlepost:',postId,'userId:',userId,'-',post.user_id)
+  console.log('singlepost:',postId,'userId:',user.userId,'-',post.user_id)
   const url=`/posts/${postId}`
 
   const fetchPost=async ()=>{
@@ -57,9 +59,9 @@ if(!loading) {
           <h3 className="text-center m-2">
              {post.title}
               <div className="singlePostEdit text-end">
-                 <i role="button" className={userId==post.user_id? "fa-solid fa-pen-to-square text-success": "d-none"}
+                 <i role="button" className={user.userId==post.user_id? "fa-solid fa-pen-to-square text-success": "d-none"}
                     onClick={()=>navigate('/editPost/'+post.id)}></i>
-                 <i role="button" className={userId==post.user_id? "fa-solid fa-trash-can ms-3 text-danger": "d-none"}
+                 <i role="button" className={user.userId==post.user_id? "fa-solid fa-trash-can ms-3 text-danger": "d-none"}
                     onClick={()=>handleDelete()}></i>
               </div>
           </h3>

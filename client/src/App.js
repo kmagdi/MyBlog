@@ -18,8 +18,6 @@ import { ConfirmProvider } from 'material-ui-confirm';
 import {MyContextProvider} from './MyContext'
 import { UserProvider } from './UserContext';
 
-import { set } from 'react-hook-form';
-
 function App() {
    const [posts,setPosts]=useState([])
    const [loggedIn,setLoggedIn] = useState(false)
@@ -35,7 +33,7 @@ function App() {
               <Route path="/posts/:postId/:imageId" element={<Single   />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/write" element={loggedIn ? <Write  /> : <Login setLoggedIn={setLoggedIn}/>}/>
-              <Route path="/settings" element={ <Settings  setLoggedIn={setLoggedIn}/>} />
+              <Route path="/settings" element={loggedIn ? <Settings  setLoggedIn={setLoggedIn}/>  : <Login setLoggedIn={setLoggedIn}/>} />
               <Route path="/login" element={loggedIn ? <Home  admin={false} posts={posts} setPosts={setPosts}/> : <Login setLoggedIn={setLoggedIn}/>} />
               <Route path="/register" element={ <Register />} />
               <Route path="/confirm/:confirmationCode" element={<Welcome />} />

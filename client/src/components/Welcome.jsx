@@ -2,10 +2,9 @@ import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useParams,NavLink } from 'react-router-dom'
 
-export const Welcome=({setUser})=> {
+export const Welcome=()=> {
     const params=useParams()
     console.log('kliens:',params.confirmationCode)
-    setUser(false)
     const url='/auth/confirm/'
     useEffect(()=> { 
         verifyUser(url,params.confirmationCode)
