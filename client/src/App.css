@@ -92,6 +92,9 @@
   height:100vh;
   object-fit:cover;
 }
+.login form,.register form{
+  width:300px;
+}
 .err{
   color:red;
   font-size:0.6rem;

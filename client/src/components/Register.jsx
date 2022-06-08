@@ -64,14 +64,14 @@ export const Register=()=> {
         <h3 className="text-center">Regisztráció</h3>
        <form onSubmit={handleSubmit(onSubmit)}>
         <input {...register('username',{ required: true, maxLength:20 })} 
-            className={validUsername ? "form-control mb-1" : "form-control mb-1 border border-danger"}
+            className={validUsername ? "form-control mb-1" : "form-control mb-2 border border-danger"}
             placeholder="felhasználónév"
             onBlur={(e)=>checkUsername(e)}/>
             {errors.userName && <p className="err">a felhasználónév megadása kötelező</p>}
-        <input {...register('email', { required: true })} className="form-control mb-1" placeholder="email"
+        <input {...register('email', { required: true })} className="form-control mb-2" placeholder="email"
             onBlur={(e)=>checkEmail(e)}/>
             {errors.email && <p className="err">email cím megadása kötelelező</p>}
-        <input type="password" {...register('password', { required: true })} className="form-control mb-1"  />
+        <input type="password" {...register('password', { required: true })} className="form-control mb-2" placeholder="jelszó" />
         {errors.password && <p className="err">hibás jelszó</p>}
         <input type="submit" 
           className={validUsername&&validEmail? "btn btn-success form-control rounded":"btn btn-danger form-control rounded" }

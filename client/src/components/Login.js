@@ -42,17 +42,17 @@ export const Login=({setLoggedIn})=> {
   }
 
   return (
-    <div className="register">
+    <div className="login">
       <div className="position-absolute top-50 start-50 translate-middle">
         <h3 className="text-center">Bejelentkezés</h3>
        <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register('email', { required: true })} className="form-control mb-1" placeholder="email"/>
+        <input {...register('email', { required: true })} className="form-control mb-2" placeholder="email"/>
         {errors.email && <p className="err">email cím megadása kötelelező</p>}
-        <input type="password" {...register('password', { required: true })} className="form-control mb-1"  />
+        <input type="password" {...register('password', { required: true })} className="form-control mb-2" placeholder="jelszó" />
         {errors.password && <p className="err">hibás jelszó</p>}
         <input type="submit" className="btn btn-success form-control rounded"/>
     </form>
-    <div>{msg}</div>
+    <div className="text-danger">{msg}</div>
   </div>
     </div>
   )

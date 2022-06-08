@@ -7,6 +7,7 @@ import FileDrop from './FileDrop'
 import {UserContext} from '../UserContext'
 import {Story} from './Story'
 import { SpinnerCircular } from 'spinners-react';
+import {useConfirm} from 'material-ui-confirm'
 
 export const Settings=({setLoggedIn})=> {
   const navigate = useNavigate()
@@ -16,6 +17,7 @@ export const Settings=({setLoggedIn})=> {
   const [msg,setMsg] =useState('')
   const [selFile,setSelFile] = useState({})
   const [updateing, setUpdateing] = useState(false);
+  const confirm=useConfirm()
   
 console.log('user.avatar=',user.avatar)
   const onUpdateSubmit = () =>{
@@ -27,9 +29,10 @@ console.log('user.avatar=',user.avatar)
   } 
 
   const onDeleteSubmit=()=>{
-    console.log("onDeleteSubmit:",user)
     let url=`/auth/deleteUserData/${user.userId}`
-    delUser(url)
+    confirm({description:`Biztosan ki szeretnéd törölni a fiokodat?`})
+        .then(()=>{delUser(url)})
+        .catch(()=>{console.log('confirm box hiba!')})
   }
   const verify=async (file)=>{
     const isValidImage = await validateImage(file);
@@ -62,6 +65,7 @@ console.log('user.avatar=',user.avatar)
   }
 
   const delUser=async (url) =>{
+    console.log('delUser:',url)
     setUpdateing(true)
     try {
       const resp=await axios.delete(url)
@@ -87,7 +91,7 @@ console.log('user.avatar=',user.avatar)
     }
   }
 
-
+  
   return (
     <div className="row justify-content-center mx-auto w-75 write" >
   
