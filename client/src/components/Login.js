@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState,useContext } from 'react'
 import { useForm } from 'react-hook-form';
 import emptyavatar from './avatar.svg'
-import { UserContext } from '../UserContext';
+import { UserContext } from '../contexts/UserContext';
 
 
 export const Login=({setLoggedIn})=> {

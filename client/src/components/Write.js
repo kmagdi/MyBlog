@@ -4,14 +4,14 @@ import axios from 'axios'
 import { validateImage } from "image-validator";
 //import Files from 'react-files'
 import FileDrop from './FileDrop'
-import {MyContext} from '../MyContext'
+import {CategContext} from '../contexts/CategContext'
 import {Story} from './Story'
-import {UserContext} from '../UserContext'
+import {UserContext} from '../contexts/UserContext'
 import { SpinnerCircular } from 'spinners-react';
 
 export const Write=()=> {
   const {user}=useContext(UserContext)
-  const { categ } = useContext(MyContext);
+  const { categ } = useContext(CategContext);
   const {register, handleSubmit,formState: { errors }} = useForm();
   const [postCateg,setPostCateg]=useState(0)
   const [successful,setSuccessFul]=useState(false)

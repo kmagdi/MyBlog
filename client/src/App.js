@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React,{useState} from 'react'
 import { HashRouter,Routes,Route } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
@@ -15,26 +15,28 @@ import { Welcome } from './components/Welcome';
 import { EditPost } from './components/EditPost';
 //import axios from 'axios';
 import { ConfirmProvider } from 'material-ui-confirm';
-import {MyContextProvider} from './MyContext'
-import { UserProvider } from './UserContext';
+import {CategProvider} from './contexts/CategContext'
+import { UserProvider } from './contexts//UserContext';
+import {AdminProvider} from './contexts/AdminContext';
 
 function App() {
    const [posts,setPosts]=useState([])
    const [loggedIn,setLoggedIn] = useState(false)
   return (
-    <MyContextProvider>
+    <CategProvider>
+      <AdminProvider>
       <UserProvider>
         <ConfirmProvider>
           <HashRouter >
             <TopBar  posts={posts} setLoggedIn={setLoggedIn} />
             <Routes>
-              <Route path="/" element={<Home   admin={false} posts={posts} setPosts={setPosts}/>} />
-              <Route path="/aboutme" element={<Home    admin={true} posts={posts} setPosts={setPosts}/>}/>
+              <Route path="/" element={<Home  posts={posts} setPosts={setPosts}/>} />
+              <Route path="/aboutme" element={<Home   posts={posts} setPosts={setPosts}/>}/>
               <Route path="/posts/:postId/:imageId" element={<Single   />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/write" element={loggedIn ? <Write  /> : <Login setLoggedIn={setLoggedIn}/>}/>
               <Route path="/settings" element={loggedIn ? <Settings  setLoggedIn={setLoggedIn}/>  : <Login setLoggedIn={setLoggedIn}/>} />
-              <Route path="/login" element={loggedIn ? <Home  admin={false} posts={posts} setPosts={setPosts}/> : <Login setLoggedIn={setLoggedIn}/>} />
+              <Route path="/login" element={loggedIn ? <Home  posts={posts} setPosts={setPosts}/> : <Login setLoggedIn={setLoggedIn}/>} />
               <Route path="/register" element={ <Register />} />
               <Route path="/confirm/:confirmationCode" element={<Welcome />} />
               <Route path="/editPost/:postId" element={<EditPost />}/>
@@ -42,7 +44,8 @@ function App() {
           </HashRouter>
         </ConfirmProvider>
       </UserProvider>
-    </MyContextProvider>
+      </AdminProvider>
+    </CategProvider>
   );
 }
 

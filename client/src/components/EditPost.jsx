@@ -2,11 +2,11 @@ import React,{useState,useEffect,useContext} from 'react'
 import {useForm} from 'react-hook-form'
 import axios from 'axios'
 import {useParams} from 'react-router-dom'
-import {MyContext} from '../MyContext'
+import {CategContext} from '../contexts/CategContext'
 import {Story} from './Story'
 
 export const EditPost=()=> {
-  const { categ } = useContext(MyContext);
+  const { categ } = useContext(CategContext);
   const params=useParams()
   console.log('edit post:',params)
   const { register, handleSubmit, formState: { errors },reset } = useForm();

@@ -1,31 +1,29 @@
 import React,{useContext} from "react";
-import myPhoto from "./myPhoto.jpg";
-import {MyContext} from '../MyContext'
+import {CategContext} from '../contexts/CategContext'
 import {useNavigate}from 'react-router-dom'
+import {AdminContext} from '../contexts/AdminContext'
+import parse from 'html-react-parser';
 
 export const Sidebar = () => {
   const navigate=useNavigate()
-  const { categ,selCateg,setSelCateg } = useContext(MyContext);
+  const { categ,selCateg,setSelCateg } = useContext(CategContext);
+  const {admin}=useContext(AdminContext)
 
   const handleSelCateg=(id)=>{
     console.log('handle:',id)
     setSelCateg(id)
     navigate('/')
   }
-
+//console.log('admin:',admin)
+console.log('categ-sidebar:',categ)
   return (
     <div className="sidebar mt-2 bg-light rounded d-flex flex-column align-items-center">
       <div className=" d-flex flex-column align-items-center">
         <span className="m-2 p-2 text-center w-75 border-top border-bottom">Rólam</span>
-        <img className="mt-2 p-2" src={myPhoto} alt="I" />
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. 
-        </p>
+        <img className="img-fluid mt-2 p-2" src={admin.avatar} alt="I" />
+  
+         {parse(`${admin.story}`)}
+
       </div>
       <div className=" d-flex flex-column align-items-center">
         <span className="border-bottom pb-2">Kategóriák</span>

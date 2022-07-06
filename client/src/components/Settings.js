@@ -4,7 +4,7 @@ import axios from 'axios'
 import { validateImage } from "image-validator";
 import emptyavatar from './avatar.svg'
 import FileDrop from './FileDrop'
-import {UserContext} from '../UserContext'
+import {UserContext} from '../contexts/UserContext'
 import {Story} from './Story'
 import { SpinnerCircular } from 'spinners-react';
 import {useConfirm} from 'material-ui-confirm'

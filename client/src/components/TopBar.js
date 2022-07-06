@@ -2,7 +2,7 @@ import React,{useContext} from 'react'
 import {NavLink,useNavigate} from 'react-router-dom'
 import emptyavatar from './avatar.svg'
 import {SearchBar} from './SearchBar'
-import {UserContext} from '../UserContext'
+import {UserContext} from '../contexts/UserContext'
 
 
 export const TopBar=({posts,setPosts,setLoggedIn})=> {

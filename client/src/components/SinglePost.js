@@ -3,7 +3,7 @@ import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import {useConfirm} from 'material-ui-confirm'
 import parse from 'html-react-parser';
-import {UserContext} from '../UserContext'
+import {UserContext} from '../contexts/UserContext'
 
 
 export const SinglePost=({postId,imageId})=> {
@@ -13,25 +13,23 @@ export const SinglePost=({postId,imageId})=> {
   const [post,setPost]=useState({})
   const [msg,setMsg]=useState('')
   const [loading, setLoading] = useState(false);
-  useEffect(()=> {
-    setLoading(true);
-    fetchPost()
-    return () => setLoading(false);
-  },[postId])
-  
-
-  console.log('singlepost:',postId,'userId:',user.userId,'-',post.user_id)
+  //console.log('singlepost:',postId,'userId:',user.userId,'-',post.user_id)
   const url=`/posts/${postId}`
 
-  const fetchPost=async ()=>{
+  const fetchPost=async (url)=>{
     try {
       const resp=await axios.get(url)
-      setPost(resp.data[0])
-      
+      setPost(resp.data[0])    
     }catch(err){
       console.log(err)
     }
   }
+  useEffect(()=> {
+    if(!loading) {
+      setLoading(true);
+      fetchPost(url)
+    }
+  },[loading,url])
   
 console.log(post)
 const handleDelete=()=>{
@@ -44,7 +42,7 @@ const deletePost=async ()=>{
   try{
     const resp=await axios.delete(`/posts/${postId}/${imageId}`)
     setPost({})
-    setMsg('Sikeres törlés!')
+    setMsg('Sikeres törlés!'+resp.data)
 
   }catch(err){console.log(err)}
 }
@@ -59,9 +57,9 @@ if(!loading) {
           <h3 className="text-center m-2">
              {post.title}
               <div className="singlePostEdit text-end">
-                 <i role="button" className={user.userId==post.user_id? "fa-solid fa-pen-to-square text-success": "d-none"}
+                 <i role="button" className={user.userId===post.user_id? "fa-solid fa-pen-to-square text-success": "d-none"}
                     onClick={()=>navigate('/editPost/'+post.id)}></i>
-                 <i role="button" className={user.userId==post.user_id? "fa-solid fa-trash-can ms-3 text-danger": "d-none"}
+                 <i role="button" className={user.userId===post.user_id? "fa-solid fa-trash-can ms-3 text-danger": "d-none"}
                     onClick={()=>handleDelete()}></i>
               </div>
           </h3>
@@ -70,7 +68,7 @@ if(!loading) {
             <span className="singlePostAuthor">{post.username}</span>
             <span className="singelPostDate">1 órával ezelőtt</span>
           </div>
-          {post.body && <p>{parse(post.body)}</p>}
+          {post.body && <div>{parse(post.body)}</div>}
       </div>                          
     </div>
   )

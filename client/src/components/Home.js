@@ -3,23 +3,19 @@ import { Header } from './Header'
 import {Posts} from './Posts'
 import { Sidebar} from './Sidebar'
 import axios from 'axios'
-import {MyContext} from '../MyContext'
+import {CategContext} from '../contexts/CategContext'
 
 
-export const Home=({admin,setPosts,posts})=> {
-  const {selCateg}=useContext(MyContext)
+export const Home=({setPosts,posts})=> {
+  const {selCateg}=useContext(CategContext)
+  
   useEffect(()=> {
     fetchPosts()
-  },[selCateg,admin])
+  },[selCateg])
 
   //console.log('admin=',admin)
   const fetchPosts=async ()=>{
-    let url=''
-    if(!admin)
-            url= selCateg===0? '/posts':'/posts/categ/'+selCateg
-    else
-          url= selCateg===0? '/posts/admin':'/posts/admin/categ/'+selCateg
-    
+    let url= selCateg===0? '/posts':'/posts/categ/'+selCateg
     try {
       const resp=await axios.get(url)
       setPosts(resp.data)
@@ -34,7 +30,7 @@ export const Home=({admin,setPosts,posts})=> {
      <Header />
      <div className="row">
        <Posts posts={posts} />
-       <Sidebar  />
+       <Sidebar />
      </div>
 
     </>

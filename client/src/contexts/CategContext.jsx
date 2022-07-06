@@ -2,9 +2,9 @@ import React,{createContext,useState,useEffect} from 'react';
 import axios from 'axios';
 
 
-export const MyContext = createContext();
+export const CategContext = createContext();
 
-export const MyContextProvider = (props) => {
+export const CategProvider = (props) => {
   const [categ, setCateg] = useState([]);
   const [selCateg,setSelCateg]=useState(0)
 
@@ -22,8 +22,8 @@ export const MyContextProvider = (props) => {
     }
   }
   return (
-    <MyContext.Provider value={{ categ ,selCateg,setSelCateg}}>
+    <CategContext.Provider value={{ categ ,selCateg,setSelCateg}}>
       {props.children}
-    </MyContext.Provider>
+    </CategContext.Provider>
   );
 };
