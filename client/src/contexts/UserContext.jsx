@@ -4,7 +4,8 @@ const user={
     userId:0,
     userName:'',
     avatar:'',
-    userStory:''
+    userStory:'',
+    role:''
 }
  
 //létrehozzuk a globális state-t

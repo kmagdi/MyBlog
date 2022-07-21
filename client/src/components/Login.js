@@ -26,7 +26,8 @@ export const Login=({setLoggedIn})=> {
         userId:data.userId,
         userName:data.username,
         avatar:data.avatar,
-        userStory:data.userStory
+        userStory:data.userStory,
+        role:data.role
       }
       loginUser(userData)
       setLoggedIn(true)

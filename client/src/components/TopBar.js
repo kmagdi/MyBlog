@@ -1,11 +1,13 @@
-import React,{useContext} from 'react'
+import React,{useContext,useState} from 'react'
 import {NavLink,useNavigate} from 'react-router-dom'
 import emptyavatar from './avatar.svg'
 import {SearchBar} from './SearchBar'
 import {UserContext} from '../contexts/UserContext'
+import './dropDown.css'
 
 
 export const TopBar=({posts,setPosts,setLoggedIn})=> {
+  const [isOpen,setIsOpen]=useState(false)
   const {user,logoutUser}=useContext(UserContext)
   const navigate=useNavigate()
 console.log('TopBar-user:',user)
@@ -20,6 +22,18 @@ const logout=()=>{
   logoutUser(userData)
   setLoggedIn(false)
   navigate('/')
+}
+
+const handleClick=(e)=> {
+  //target vs currenttarget-ha ez a 2 egyenlő akkor a szülőn törtét az esemény
+  console.log(e.target)//ez a gyerek elemnek megfelelő objektum
+  setIsOpen(!isOpen)
+  const classList = e.currentTarget.classList//ez a szülő, ahol az eseményre való felíratkozás megtörténz
+  if (isOpen) 
+    classList.remove('dropdown--open')
+  else
+    classList.add('dropdown--open')
+  
 }
   return (
     <div>
@@ -39,9 +53,14 @@ const logout=()=>{
         <li className="nav-item">
           <NavLink to="/" className="nav-link " aria-current="page" href="#">Home</NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink to="/aboutme" className="nav-link" href="#">Rólam</NavLink>
-        </li>
+        {user.role==='Admin' &&  ( <li className="dropdown nav-link btn" onClick={handleClick}>Admin{!isOpen ? '🔽' : ' 🔼' }
+            <div className="dropdown__menu">
+              <NavLink to="/admin/categorie" className="dropdown__item" >Kategóriák</NavLink>
+              <NavLink to="/admin/posts" className="dropdown__item" >Postok</NavLink>
+              <NavLink to="/admin/users" className="dropdown__item" >Felhasználók</NavLink>
+            </div>
+    </li>)}
+       
         <li className="nav-item">
           <NavLink to="/write" className="nav-link" href="#">Írj</NavLink>
         </li>

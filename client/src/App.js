@@ -13,6 +13,7 @@ import {Single} from './components/Single'
 import {Contact} from './components/Contact'
 import { Welcome } from './components/Welcome';
 import { EditPost } from './components/EditPost';
+import { AdminPage } from './components/AdminPage';
 //import axios from 'axios';
 import { ConfirmProvider } from 'material-ui-confirm';
 import {CategProvider} from './contexts/CategContext'
@@ -31,7 +32,7 @@ function App() {
             <TopBar  posts={posts} setLoggedIn={setLoggedIn} />
             <Routes>
               <Route path="/" element={<Home  posts={posts} setPosts={setPosts}/>} />
-              <Route path="/aboutme" element={<Home   posts={posts} setPosts={setPosts}/>}/>
+              <Route path="/admin/:tableName" element={loggedIn ? <AdminPage /> : <Login setLoggedIn={setLoggedIn}/>}/>
               <Route path="/posts/:postId/:imageId" element={<Single   />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/write" element={loggedIn ? <Write  /> : <Login setLoggedIn={setLoggedIn}/>}/>
